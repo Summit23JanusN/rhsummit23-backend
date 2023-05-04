@@ -1,0 +1,66 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: rhsummit23-poi-backend-app-dev
+  annotations:
+    argocd/app-name: rhsummit23-poi-backend-app-dev
+    backstage.io/kubernetes-id: rhsummit23-poi-backend-app-dev
+    backstage.io/kubernetes-namespace: rhsummit23
+    backstage.io/kubernetes-label-selector: 'app.kubernetes.io/instance=rhsummit23-poi-backend-app-dev'
+    backstage.io/techdocs-ref: dir:.
+    github.com/project-slug: Summit23JanusN/rhsummit23-backend
+  tags:
+    - java
+    - quarkus
+    - maven
+    - workshop
+  links:
+    - url: https://console-openshift-console.summit23bis.17gd.p1.openshiftapps.com/dev-pipelines/ns/rhsummit23/
+      title: Pipelines
+      icon: web
+    - url: https://console-openshift-console.summit23bis.17gd.p1.openshiftapps.com/k8s/ns/rhsummit23/deployments/poi-backend-app
+      title: Deployment
+      icon: web
+    - url: https://devspaces.summit23bis.17gd.p1.openshiftapps.com/#https://github.com/Summit23JanusN/rhsummit23-backend?che-editor=che-incubator/che-code/latest&devfilePath=.devfile-vscode.yaml
+      title: OpenShift Dev Spaces (VS Code)
+      icon: web
+spec:
+  type: service
+  lifecycle: production
+  owner: "user:rhsummit23"
+  system: workshop-system-rhsummit23
+  providesApis:
+    - backend-api-rhsummit23
+---
+apiVersion: backstage.io/v1alpha1
+kind: System
+metadata:
+  name: workshop-system-rhsummit23
+  tags:
+    - backstage
+    - janus-idp
+    - openshift
+    - workshop
+    - rh-summit
+spec:
+  owner: "user:rhsummit23"
+---
+apiVersion: backstage.io/v1alpha1
+kind: API
+metadata:
+  name: backend-api-rhsummit23
+  description: API surface used by workshop attendees to initialize and load parks data
+  links:
+    - url: http://poi-backend-app-rhsummit23.summit23bis.17gd.p1.openshiftapps.com/q/swagger-ui
+      title: Swagger UI
+      icon: web
+    - url: https://github.com/Summit23JanusN/rhsummit23-backend/tree/main/src/main/resources/META-INF/openapi.yaml
+      title: API Spec
+      icon: code
+spec:
+  type: openapi
+  lifecycle: production
+  owner: "user:rhsummit23"
+  system: workshop-system-rhsummit23
+  definition:
+    $text: https://github.com/Summit23JanusN/rhsummit23-backend/tree/main/src/main/resources/META-INF/openapi.yaml
